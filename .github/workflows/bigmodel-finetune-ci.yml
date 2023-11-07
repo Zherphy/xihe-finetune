@@ -1,0 +1,22 @@
+name: Docker BigModel Finetune Image CI
+
+on:
+  push:
+    branches: [ "main", "dev", "sec" ]
+    paths:
+      - 'bigmodel-finetune/**'
+  pull_request:
+    branches: [ "main", "dev", "sec" ]
+    paths:
+      - 'bigmodel-finetune/**'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the bigmodel-finetune Docker image
+        run: cd bigmodel-finetune && docker build . --file Dockerfile --tag bigmodel-finetune-server:$(date +%s)

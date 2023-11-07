@@ -1,0 +1,23 @@
+name: Docker Finetune Image CI
+
+on:
+  push:
+    branches: [ "main", "dev", "sec" ]
+    paths-ignore:
+      - 'bigmodel-finetune/**'
+  pull_request:
+    branches: [ "main", "dev", "sec" ]
+    paths-ignore:
+      - 'bigmodel-finetune/**'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the finetune Docker image
+        run: docker build . --file Dockerfile --tag finetune-server:$(date +%s)
+
