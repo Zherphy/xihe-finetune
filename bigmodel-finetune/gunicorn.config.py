@@ -41,7 +41,7 @@ worker_class = "gevent"
 x_forwarded_for_header = "X-FORWARDED-FOR"
 
 print(multiprocessing.cpu_count())
-workers = int(CPU_COUNT) * 2 + 1    # 进程数
-threads = 4     # 指定每个进程开启的线程数
+workers = 1    # 进程数
+threads = int(CPU_COUNT)     # 指定每个进程开启的线程数
 
 
