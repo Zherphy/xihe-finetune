@@ -8,7 +8,7 @@ from flask_httpauth import HTTPTokenAuth
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Column, Integer, String
-from flask_cors import *
+# from flask_cors import *
 from authlib.jose import jwt
 from authlib.jose.errors import ExpiredTokenError
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -19,7 +19,16 @@ from .fmh import FoundationModelHandler, BASIC_CONFIG
 app = Flask(__name__)
 fmh = FoundationModelHandler()
 
-CORS(app, supports_credentials=True)
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    if request.method == 'OPTIONS':
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+        response.status_code = 204  # 没有内容的响应
+    return response
+
+# CORS(app, supports_credentials=True)
 
 # initialization
 basic_config = BASIC_CONFIG
